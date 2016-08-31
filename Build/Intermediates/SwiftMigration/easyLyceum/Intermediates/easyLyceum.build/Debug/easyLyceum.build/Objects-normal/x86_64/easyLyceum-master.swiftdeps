@@ -1,0 +1,6 @@
+version: "Apple Swift version 3.0 (swiftlang-800.0.46.2 clang-800.0.38)"
+options: "e9e5292bcc1c72164ce43a2553a9dfd4"
+build_time: [529864641, 606911000]
+inputs:
+  "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift": [525972228, 0]
+  "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/AppDelegate.swift": [525961138, 0]

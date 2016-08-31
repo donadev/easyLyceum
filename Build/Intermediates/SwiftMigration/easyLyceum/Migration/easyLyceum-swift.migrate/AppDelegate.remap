@@ -1,0 +1,24 @@
+[
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/AppDelegate.swift",
+  "offset": 269,
+  "text": "_ ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/AppDelegate.swift",
+  "offset": 284,
+  "remove": 3,
+  "text": "N",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/AppDelegate.swift",
+  "offset": 402,
+  "text": "_ ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/AppDelegate.swift",
+  "offset": 417,
+  "remove": 3,
+  "text": "N",
+ }
+]

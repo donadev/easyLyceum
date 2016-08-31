@@ -1,0 +1,99 @@
+[
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 654,
+  "remove": 8,
+  "text": "n",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 866,
+  "remove": 17,
+  "text": "d",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1175,
+  "text": "_ ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1307,
+  "remove": 3,
+  "text": " ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1358,
+  "remove": 3,
+  "text": "url",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1366,
+  "text": "!",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1384,
+  "remove": 4,
+  "text": "d",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1395,
+  "remove": 1,
+  "text": " = ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1398,
+  "remove": 2,
+  "text": "f",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1437,
+  "text": "_ ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1667,
+  "remove": 1,
+  "text": "(s",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 1678,
+  "remove": 7,
+  "text": ": ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 2148,
+  "remove": 3,
+  "text": "url",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 2547,
+  "text": "_ ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 2557,
+  "remove": 7,
+  "text": "y",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 2651,
+  "text": "_ ",
+ },
+ {
+  "file": "/Users/lucamarconato/programming/macOS/easyLyceum/easyLyceum/ViewController.swift",
+  "offset": 2656,
+  "remove": 3,
+  "text": "N",
+ }
+]
