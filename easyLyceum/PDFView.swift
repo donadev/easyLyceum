@@ -25,8 +25,8 @@ extension PDFView {
     func getSelectedAnnotation() -> PDFAnnotationSquare? {
         return selectedSquareAnnotation
     }
-    func isBoxSelected() -> Bool {
-        return shapeLayer != nil && shapeLayer.superlayer != nil
+    func isSelectionBoxVisible() -> Bool {
+        return shapeLayer != nil && shapeLayer.superlayer != nil && shapeLayer.path != nil
     }
     func getSelection() -> NSRect? {
         var rect = shapeLayer?.path?.boundingBox
@@ -44,14 +44,18 @@ extension PDFView {
         super.mouseUp(with: event)
         onMouseUpHandler()
     }
+    func removeSelectionBox() {
+        if shapeLayer != nil {
+            shapeLayer.removeFromSuperlayer()
+        }
+        shapeLayer = nil
+    }
     override open func mouseDown(with event: NSEvent) {
         
         startPoint = self.documentView!.convert(event.locationInWindow, from: nil)
         selectedSquareAnnotation = self.currentPage!.annotation(at: correct(point: startPoint)) as? PDFAnnotationSquare
         onMouseDownHandler()
-        if shapeLayer != nil {
-            shapeLayer.removeFromSuperlayer()
-        }
+        removeSelectionBox()
         shapeLayer = CAShapeLayer()
         shapeLayer.lineWidth = 1.0
         shapeLayer.fillColor = NSColor.clear.cgColor

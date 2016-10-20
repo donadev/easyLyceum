@@ -26,7 +26,7 @@ class ViewController: NSViewController, PDFViewDelegate {
             self.removeButton.isHidden = (self.pdfView.getSelectedAnnotation() == nil)
         }
         pdfView.setOnMouseUpHandler {
-            self.markButton.isEnabled = self.pdfView.isBoxSelected()
+            self.markButton.isEnabled = self.pdfView.isSelectionBoxVisible()
         }
     }
     func initAnnotations(path : String) {
@@ -97,6 +97,7 @@ class ViewController: NSViewController, PDFViewDelegate {
             annotation.color = getMarkColor()
             currentPage.addAnnotation(annotation)
             AnnotationStorage.save(annotation: annotation, page: currentPage.pageRef!.pageNumber)
+            pdfView.removeSelectionBox()
             reload(page: currentPage)
         }
     }
