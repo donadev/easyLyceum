@@ -28,6 +28,13 @@ class ViewController: NSViewController, PDFViewDelegate {
         pdfView.setOnMouseUpHandler {
             self.markButton.isEnabled = self.pdfView.isSelectionBoxVisible()
         }
+        
+        //Esempio di utilizzo del rilevatore di comandi di console:
+        console.addCommandHandler(for: "alert") {
+            let alert = NSAlert()
+            alert.messageText = "Hei! Questo è un alert"
+            alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+        }
     }
     func initAnnotations(path : String) {
         AnnotationStorage.setDocument(path: path)

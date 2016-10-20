@@ -8,21 +8,37 @@
 
 import Cocoa
 
-class Console : NSTextView {
+class Console : NSTextView, NSTextViewDelegate {
     var parent: ViewController?
-    
+    var handlers : [String : () -> ()] = [:]
+    let START_SEQUENCE = ">>"
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.delegate = self
+        self.insertNewline(nil)
+    }
+    func addCommandHandler(for command : String, handler : @escaping () -> ()) {
+        handlers[command] = handler
+    }
     override func insertNewline(_ sender: Any?) {
+        if let lastline = self.textStorage?.paragraphs.last {
+            var command = lastline.string.trimmingCharacters(in: [" "])
+            let startIndex = command.index(command.startIndex, offsetBy: START_SEQUENCE.characters.count)
+            command = command.substring(from: startIndex)
+            Swift.print(command)
+            if let handler = handlers[command] {
+                handler()
+            }
+        }
         newLine()
     }
-    
-    override func controlTextDidBeginEditing(_ obj: Notification) {
+    internal override func controlTextDidBeginEditing(_ obj: Notification) {
         NSLog("WOW!")
     }
     func newLine() {
         if let textStorage = self.textStorage {
-            let myString = "\n>>"
             let myAttribute = [ NSForegroundColorAttributeName: NSColor.green, NSFontAttributeName: NSFont(name: "Menlo Regular", size: 13.0)! ]
-            let myAttrString = NSAttributedString(string: myString, attributes: myAttribute)
+            let myAttrString = NSAttributedString(string: "\n\(START_SEQUENCE)", attributes: myAttribute)
             
             textStorage.append(myAttrString)
             let length = self.string!.characters.count

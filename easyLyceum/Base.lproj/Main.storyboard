@@ -699,7 +699,7 @@
                                             <size key="minSize" width="730" height="298"/>
                                             <size key="maxSize" width="842.5" height="10000000"/>
                                             <attributedString key="textStorage">
-                                                <fragment content="&gt;&gt;capisce quando premi invio, vorrei che capisse anche se gli scrivo un comando">
+                                                <fragment content="&gt;&gt;Ciao! Scrivi alert e premi invio per avere una prova della possibilità di associare comandi a del codice ">
                                                     <attributes>
                                                         <color key="NSColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <font key="NSFont" size="13" name="Menlo-Regular"/>
