@@ -9,39 +9,109 @@
 import Cocoa
 import Quartz
 
-class ViewController: NSViewController {
+class ViewController: NSViewController, PDFViewDelegate {
     @IBOutlet var console: Console!
     @IBOutlet weak var button: NSButton!
+    @IBOutlet weak var markButton : NSButton!
+    @IBOutlet weak var memoryButton : NSButton!
+    @IBOutlet weak var removeButton : NSButton!
+
     @IBOutlet weak var pdfView: PDFView!
-    
+    var pdf : PDFDocument!
+    let highlightColor = NSColor(deviceRed: 0, green: 1, blue: 0, alpha: 0.6)
     override func viewDidLoad() {
         super.viewDidLoad()
         console.parent = self
+        pdfView.setOnMouseDownHandler {
+            self.removeButton.isHidden = (self.pdfView.getSelectedAnnotation() == nil)
+        }
+        pdfView.setOnMouseUpHandler {
+            self.markButton.isEnabled = self.pdfView.isBoxSelected()
+        }
     }
-    
-    
-    func newLine() {
-        let textStorage = console.textStorage
-        if(textStorage != nil) {
-            let myString = "\n>>"
-            let myAttribute = [ NSForegroundColorAttributeName: NSColor.green, NSFontAttributeName: NSFont(name: "Menlo Regular", size: 13.0)! ]
-            let myAttrString = NSAttributedString(string: myString, attributes: myAttribute)
-            
-            textStorage!.append(myAttrString)
-            let length = console.string!.characters.count
-            
-            console.setSelectedRange(NSRange(location: length,length: 0))
-            console.scrollRangeToVisible(NSRange(location: length,length: 0))
+    func initAnnotations(path : String) {
+        AnnotationStorage.setDocument(path: path)
+        let pageCount = pdf.pageCount
+        for i in 0..<pageCount {
+            let page = pdf.page(at: i)!
+            if let annotations = AnnotationStorage.list(page: page.pageRef!.pageNumber) {
+                for annotation in annotations {
+                    annotation.setInteriorColor(getMarkColor())
+                    annotation.color = getMarkColor()
+                    page.addAnnotation(annotation)
+                }
+            }
         }
     }
     
+    func getMarkColor() -> NSColor {
+        return (memoryButton.state == NSOnState) ? NSColor.black : highlightColor
+    }
+    
+    @IBAction func removeButtonPressed(_ sender: AnyObject) {
+        if let annotation = pdfView.getSelectedAnnotation() {
+            if let page = self.pdfView.currentPage {
+                page.removeAnnotation(annotation)
+                AnnotationStorage.remove(annotation: annotation, page: page.pageRef!.pageNumber)
+                self.reload(page: page)
+                self.removeButton.isHidden = true
+            }
+        }
+    }
     @IBAction func buttonPressed(_ sender: AnyObject) {
         let path = openFileDialog("Scegli la slide", message: "Message", filetypelist: "pdf")
         let url = URL(string: path)
-        let pdf = PDFDocument(url: url!)
+        pdf = PDFDocument(url: url!)
         pdfView.document = pdf
+        pdfView.delegate = self
+        memoryButton.isEnabled = true
+        initAnnotations(path: path)
+        
     }
-    
+    @IBAction func annotate(_ sender : AnyObject) {
+        if let rect = pdfView.getSelection() {
+            addAnnotation(rect: rect)
+        }
+    }
+    @IBAction func changeMemoryMode(_ sender : NSButton) {
+        let color = getMarkColor()
+        let count = pdf.pageCount
+        for i in 0..<count {
+            let page = pdf.page(at: i)!
+            for annotation in (page.annotations) {
+                if annotation is PDFAnnotationSquare {
+                    let new = (annotation as! PDFAnnotationSquare)
+                    new.setInteriorColor(color)
+                    new.color = color
+                }
+            }
+        }
+        reload(page: pdfView.currentPage!)
+
+    }
+    func addAnnotation(rect : NSRect) {
+        if let currentPage = pdfView.currentPage {
+            Swift.print("rect: \(rect)")
+            let annotation = PDFAnnotationSquare(bounds: rect)
+            annotation.setInteriorColor(getMarkColor())
+            annotation.color = getMarkColor()
+            currentPage.addAnnotation(annotation)
+            AnnotationStorage.save(annotation: annotation, page: currentPage.pageRef!.pageNumber)
+            reload(page: currentPage)
+        }
+    }
+    func reload(page : PDFPage) {
+        var pageIndex = -1
+        for i in 0..<pdf.pageCount {
+            if pdf.page(at: i) == page {
+                pageIndex = i
+            }
+        }
+        pdfView.document = nil
+        pdfView.document = pdf
+        let newPage = pdf.page(at: pageIndex)!
+        pdfView.go(to: newPage)
+    }
     func openFileDialog (_ windowTitle: String, message: String, filetypelist: String) -> String
     {
         var path: String = ""
@@ -69,23 +139,7 @@ class ViewController: NSViewController {
         return (path)
     }
 
-
-    //override var representedObject: AnyObject? {
-    //    didSet {
-        // Update the view, if already loaded.
-    //    }
-    //}
-    
     
 }
 
-class Console : NSTextView {
-    var parent: ViewController?
-    override func insertNewline(_ sender: Any?) {
-        parent!.newLine()
-    }
-    
-    override func controlTextDidBeginEditing(_ obj: Notification) {
-        NSLog("WOW!")
-    }
-}
+
