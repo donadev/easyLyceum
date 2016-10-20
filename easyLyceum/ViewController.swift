@@ -35,6 +35,12 @@ class ViewController: NSViewController, PDFViewDelegate {
             alert.messageText = "Hei! Questo è un alert"
             alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
         }
+        //Esempio di utilizzo con tasto freccia in alto (unica differenza con il metodo precedente: è considerato come carattere unico e non come stringa)
+        console.addKeyHandler(for: NSUpArrowFunctionKey) {
+            let alert = NSAlert()
+            alert.messageText = "Hei! Freccia in alto"
+            alert.beginSheetModal(for: self.view.window!, completionHandler: nil)
+        }
     }
     func initAnnotations(path : String) {
         AnnotationStorage.setDocument(path: path)

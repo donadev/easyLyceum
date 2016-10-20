@@ -10,7 +10,8 @@ import Cocoa
 
 class Console : NSTextView, NSTextViewDelegate {
     var parent: ViewController?
-    var handlers : [String : () -> ()] = [:]
+    var commandHandlers : [String : () -> ()] = [:]
+    var keyHandlers : [Character : () -> ()] = [:]
     let START_SEQUENCE = ">>"
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -18,7 +19,27 @@ class Console : NSTextView, NSTextViewDelegate {
         self.insertNewline(nil)
     }
     func addCommandHandler(for command : String, handler : @escaping () -> ()) {
-        handlers[command] = handler
+        commandHandlers[command] = handler
+    }
+    func addKeyHandler(for key : Character, handler : @escaping () -> ()) {
+        keyHandlers[key] = handler
+    }
+    
+    func addKeyHandler(for key : Int, handler : @escaping () -> ()) {
+        addKeyHandler(for: Character(UnicodeScalar(key)!), handler: handler)
+    }
+    
+    
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if let chars = event.charactersIgnoringModifiers {
+            let index = chars.startIndex
+            let key = chars[index]
+            if let handler = keyHandlers[key] {
+                handler()
+            }
+        }
+        return super.performKeyEquivalent(with: event)
+        
     }
     override func insertNewline(_ sender: Any?) {
         if let lastline = self.textStorage?.paragraphs.last {
@@ -26,14 +47,11 @@ class Console : NSTextView, NSTextViewDelegate {
             let startIndex = command.index(command.startIndex, offsetBy: START_SEQUENCE.characters.count)
             command = command.substring(from: startIndex)
             Swift.print(command)
-            if let handler = handlers[command] {
+            if let handler = commandHandlers[command] {
                 handler()
             }
         }
         newLine()
-    }
-    internal override func controlTextDidBeginEditing(_ obj: Notification) {
-        NSLog("WOW!")
     }
     func newLine() {
         if let textStorage = self.textStorage {
