@@ -9,7 +9,6 @@
 import Cocoa
 
 class Console : NSTextView, NSTextViewDelegate {
-    var parent: ViewController?
     var commandHandlers : [String : () -> ()] = [:]
     var keyHandlers : [Character : () -> ()] = [:]
     let START_SEQUENCE = ">>"

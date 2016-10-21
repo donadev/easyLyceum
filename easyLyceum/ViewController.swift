@@ -21,7 +21,6 @@ class ViewController: NSViewController, PDFViewDelegate {
     let highlightColor = NSColor(deviceRed: 0, green: 1, blue: 0, alpha: 0.6)
     override func viewDidLoad() {
         super.viewDidLoad()
-        console.parent = self
         pdfView.setOnMouseDownHandler {
             self.removeButton.isHidden = (self.pdfView.getSelectedAnnotation() == nil)
         }
