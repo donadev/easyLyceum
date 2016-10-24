@@ -71,13 +71,13 @@ class ViewController: NSViewController, PDFViewDelegate {
         }
     }
     @IBAction func buttonPressed(_ sender: AnyObject) {
-        let path = openFileDialog("Scegli la slide", message: "Message", filetypelist: "pdf")
-        let url = URL(string: path)
-        pdf = PDFDocument(url: url!)
-        pdfView.document = pdf
-        pdfView.delegate = self
-        memoryButton.isEnabled = true
-        initAnnotations(path: path)
+        if let url = openFileDialog("Scegli la slide", message: "Message", filetypelist: "pdf") {
+            pdf = PDFDocument(url: url)
+            pdfView.document = pdf
+            pdfView.delegate = self
+            memoryButton.isEnabled = true
+            initAnnotations(path: url.absoluteString)
+        }
         
     }
     @IBAction func annotate(_ sender : AnyObject) {
@@ -125,9 +125,8 @@ class ViewController: NSViewController, PDFViewDelegate {
         let newPage = pdf.page(at: pageIndex)!
         pdfView.go(to: newPage)
     }
-    func openFileDialog (_ windowTitle: String, message: String, filetypelist: String) -> String
+    func openFileDialog (_ windowTitle: String, message: String, filetypelist: String) -> URL?
     {
-        var path: String = ""
         
         let myFiledialog: NSOpenPanel = NSOpenPanel()
         let fileTypeArray: [String] = filetypelist.components(separatedBy: ",")
@@ -143,13 +142,8 @@ class ViewController: NSViewController, PDFViewDelegate {
         
         myFiledialog.runModal()
         
-        let chosenfile = myFiledialog.url // Pathname of the file
+        return myFiledialog.url
         
-        if (chosenfile != nil)
-        {
-            path = chosenfile!.absoluteString
-        }
-        return (path)
     }
 
     
